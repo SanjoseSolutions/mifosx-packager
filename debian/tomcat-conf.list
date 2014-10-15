@@ -1,0 +1,4 @@
+d 755 tomcat7 tomcat7 /usr/share/mifosx/tomcat7 -
+f 644 tomcat7 tomcat7 /usr/share/mifosx/tomcat7/server.xml tomcat-extras/server.xml
+f 644 hacker hacker /usr/share/tomcat7/lib/tomcat-jdbc.jar tomcat-extras/tomcat-jdbc.jar
+f 644 hacker hacker /usr/share/tomcat7/lib/mysql-connector-java-5.1.33-bin.jar tomcat-extras/mysql-connector-java-5.1.33-bin.jar

@@ -1,0 +1,17 @@
+%product MifosX - MicroFinance in Open Source
+%vendor Community for Open Source Microfinance
+%copyright 2014 COSM
+%license LICENSE.md
+%readme README.md
+%description << EOF
+EOF
+%version 1.25.0
+%requires tomcat7
+%requires openjdk-7-jre
+%requires mysql-server
+%postinstall <debian/postinst.sh
+%preinstall <debian/preinst.sh
+%include debian/community-app.list
+%include debian/mifosng-provider.list
+%include debian/mifosng-db.list
+%include debian/tomcat-conf.list
