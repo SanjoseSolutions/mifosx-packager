@@ -38,8 +38,12 @@
   <Service name="Catalina">
 
 <Connector protocol="org.apache.coyote.http11.Http11Protocol"
-           port="8080" maxThreads="200" 
-           clientAuth="false" sslProtocol="TLS"
+           port="8443" maxThreads="200"
+	   scheme="https" secure="true"
+	   SSLEnabled="true" sslProtocol="TLS"
+	   keystoreFile="/usr/share/mifosx/.keystore"
+	   keystorePass="tomcat7"
+           clientAuth="false"
            URIEncoding="UTF-8"
            compression="force"
            compressableMimeType="text/html,text/xml,text/plain,text/javascript,text/css"/>

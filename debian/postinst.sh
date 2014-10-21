@@ -15,6 +15,7 @@ RESULT=`cat $$f | grep "mifostenant-default"`
 if [ "$$RESULT" = "mifostenant-default" ]; then
 	EXISTS=1
 fi
+echo -n > $$f
 if [ $$EXISTS -eq 1 ]; then
 	echo -n "Database exists. Delete and re-create? "
 	read option
@@ -24,9 +25,9 @@ if [ $$EXISTS -eq 1 ]; then
 	fi
 fi
 echo -n "Enter Mifos Database Username (default root): "
-read USER
-if [ "" = "$$USER" ]; then
-	USER=root
+read USR
+if [ "" = "$$USR" ]; then
+	USR=root
 	PASS="$$MYSQL_ROOT_PW"
 else
 	echo -n "Enter Password for Mifos User: ";
@@ -36,13 +37,22 @@ else
 	echo
 fi
 for d in mifosplatform-tenants mifostenant-default; do
-	echo -e "DROP DATABASE IF EXISTS \`$$d\`;
+	echo "DROP DATABASE IF EXISTS \`$$d\`;
 CREATE DATABASE \`$$d\`;
-GRANT ALL PRIVILEGES ON \`$$d\`.* TO $$USER@localhost IDENTIFIED BY '$$PASS';" >> $$f
+GRANT ALL PRIVILEGES ON \`$$d\`.* TO $$USR@localhost IDENTIFIED BY '$$PASS';" >> $$f
 done
 mysql -u root -p"$$MYSQL_ROOT_PW" < $$f
 rm $$f
-mysql -u $$USER -p"$$PASS" mifosplatform-tenants < /usr/share/mifosx/database/mifosplatform-tenants-first-time-install.sql
-mysql -u $$USER -p"$$PASS" mifostenant-default < /usr/share/mifosx/database/migrations/sample_data/load_sample_data.sql
+mysql -u $$USR -p"$$PASS" mifosplatform-tenants < /usr/share/mifosx/database/mifospltaform-tenants-first-time-install.sql
+mysql -u $$USR -p"$$PASS" mifostenant-default < /usr/share/mifosx/database/migrations/sample_data/load_sample_data.sql
+cp /etc/tomcat7/server.xml /etc/tomcat7/server.xml.orig
+cp /usr/share/mifosx/tomcat7/server.xml /etc/tomcat7/server.xml
+arch=`dpkg --print-architecture`
+dt=/etc/default/tomcat7
+grep -q "^JAVA_HOME" $$dt || sed -i "/^#JAVA_HOME/aJAVA_HOME=" $$dt
+sed -i "/^JAVA_HOME/s/.*/JAVA_HOME=\/usr\/lib\/jvm\/java-7-openjdk-$$arch" $$dt
+useradd -d /usr/share/mifosx mifos
+chown -R mifos:mifos /usr/share/mifosx
+keytool -keystore /usr/share/mifosx/.keystore -keyalg RSA -storepass tomcat7 -keypass tomcat7 -alias mifosx -genkey
 service tomcat7 restart
 
