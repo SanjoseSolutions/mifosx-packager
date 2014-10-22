@@ -44,6 +44,7 @@ done
 mysql -u root -p"$$MYSQL_ROOT_PW" < $$f
 rm $$f
 mysql -u $$USR -p"$$PASS" mifosplatform-tenants < /usr/share/mifosx/database/mifospltaform-tenants-first-time-install.sql
+mysql -u $$USR -p"$$PASS" mifosplatform-tenants -e"UPDATE tenants SET schema_username='$$USR', schema_password='$$PASS' WHERE identifier='default'"
 mysql -u $$USR -p"$$PASS" mifostenant-default < /usr/share/mifosx/database/migrations/sample_data/load_sample_data.sql
 cp -i /etc/tomcat7/server.xml /etc/tomcat7/server.xml.orig
 cp /usr/share/mifosx/tomcat7/server.xml /etc/tomcat7/server.xml
