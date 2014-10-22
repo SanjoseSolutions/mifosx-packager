@@ -45,12 +45,13 @@ mysql -u root -p"$$MYSQL_ROOT_PW" < $$f
 rm $$f
 mysql -u $$USR -p"$$PASS" mifosplatform-tenants < /usr/share/mifosx/database/mifospltaform-tenants-first-time-install.sql
 mysql -u $$USR -p"$$PASS" mifostenant-default < /usr/share/mifosx/database/migrations/sample_data/load_sample_data.sql
-cp /etc/tomcat7/server.xml /etc/tomcat7/server.xml.orig
+cp -i /etc/tomcat7/server.xml /etc/tomcat7/server.xml.orig
 cp /usr/share/mifosx/tomcat7/server.xml /etc/tomcat7/server.xml
 arch=`dpkg --print-architecture`
 dt=/etc/default/tomcat7
 grep -q "^JAVA_HOME" $$dt || sed -i "/^#JAVA_HOME/aJAVA_HOME=" $$dt
-sed -i "/^JAVA_HOME/s/.*/JAVA_HOME=\/usr\/lib\/jvm\/java-7-openjdk-$$arch" $$dt
+sed -i "/^JAVA_HOME/s/.*/JAVA_HOME=\/usr\/lib\/jvm\/java-7-openjdk-$$arch/" $$dt
+sed -i "/^JAVA_OPTS/s/128m/1024m/" $$dt
 useradd -d /usr/share/mifosx mifos
 chown -R mifos:mifos /usr/share/mifosx
 keytool -keystore /usr/share/mifosx/.keystore -keyalg RSA -storepass tomcat7 -keypass tomcat7 -alias mifosx -genkey

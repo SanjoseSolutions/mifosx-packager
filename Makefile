@@ -4,7 +4,7 @@ PKGDIR=mifosplatform-$(VER).RELEASE
 
 package: $(PKGFILE)
 
-$(PKGFILE): debian/mifosx.list debian/community-app.list debian/mifosng-db.list debian/mifosng-provider.list debian/tomcat-conf.list
+$(PKGFILE): debian/mifosx.list debian/community-app.list debian/mifosng-db.list debian/mifosng-provider.list debian/tomcat-conf.list debian/postinst.sh
 	epm -g -nm -a all -v -f deb mifosx --output-dir . debian/mifosx.list
 
 debian/mifosx.list: VERSION
