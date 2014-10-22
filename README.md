@@ -1,10 +1,12 @@
 MifosX Packager
 ===============
 
-Debian packaging for MifosX for Easy installation. Just download the deb package and run:
+Debian packaging for MifosX for Quick installation:
 
 ```
-$ sudo dpkg -i mifosx-version-all.deb
+$ echo deb http://mifos.sanjosesolutions.in stable main | sudo tee /etc/apt/sources.list.d/mifosx.list
+$ sudo apt-get update
+$ sudo apt-get install mifosx
 ```
 
 Setup
@@ -14,6 +16,6 @@ Install epm. Download and unzip mifosplatform-RELEASE 1.25 in this folder. Then
 generate deb by running:
 
 ```
-$ ./make-deb.sh
+$ make package
 ```
 
